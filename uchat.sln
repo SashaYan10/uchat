@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat_server", "uchat_serve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat", "uchat\uchat.csproj", "{94F983A5-AA20-4922-814B-A34167E0AE67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uchat.Server.Tests", "uchat.Server.Tests\uchat.Server.Tests.csproj", "{73D6B580-88D2-4E24-890B-959C3C318A0E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,18 +41,6 @@ Global
 		{94F983A5-AA20-4922-814B-A34167E0AE67}.Release|x64.Build.0 = Release|Any CPU
 		{94F983A5-AA20-4922-814B-A34167E0AE67}.Release|x86.ActiveCfg = Release|Any CPU
 		{94F983A5-AA20-4922-814B-A34167E0AE67}.Release|x86.Build.0 = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|x64.Build.0 = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Debug|x86.Build.0 = Debug|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|x64.ActiveCfg = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|x64.Build.0 = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|x86.ActiveCfg = Release|Any CPU
-		{73D6B580-88D2-4E24-890B-959C3C318A0E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
