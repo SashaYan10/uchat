@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="uchat.LoginPage"
+             xmlns:ViewModels="clr-namespace:uchat.ViewModels"
+             xmlns:Views="clr-namespace:uchat.Views.Base"
+             xmlns:itemsViewModels="clr-namespace:uchat.Models"
+             Shell.NavBarIsVisible="False"
+             x:DataType="ViewModels:LoginViewModel"
+             x:TypeArguments="ViewModels:LoginViewModel">
+
+    <Grid>
+        <Grid BackgroundColor="#D1D5DC">
+            <Border BackgroundColor="#FFFFFF"
+                StrokeShape="RoundRectangle 15"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Padding="25"
+                WidthRequest="380">
+                <Grid>
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="Welcome to UChat!"
+                            TextColor="#4F39F5"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"/>
+
+                        <Label Text="Log in to your account"
+                            TextColor="#4A5565"
+                            FontSize="20"
+                            FontAttributes="None"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,10"/>
+
+                        <VerticalStackLayout>
+                            <Label Text="Username" TextColor="#364153" FontSize="24"/>
+                            <Entry Placeholder="Enter your username"
+                                Text="{Binding Username}"
+                                Keyboard="Text"
+                                TextColor="Black"
+                                PlaceholderColor="Gray"
+                                BackgroundColor="#F5F5F5"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout>
+                            <Label Text="Password" TextColor="#364153" FontSize="24"/>
+                            <Entry Placeholder="Enter your password"
+                                Text="{Binding Password}"
+                                IsPassword="True"
+                                Keyboard="Password"
+                                TextColor="Black"
+                                PlaceholderColor="Gray"
+                                BackgroundColor="#F5F5F5"/>
+                        </VerticalStackLayout>
+
+                        <Button Text="Login"
+                             Command="{Binding LoginCommand}"
+                             BackgroundColor="#4F39F5"
+                             TextColor="White"
+                             CornerRadius="10"
+                             FontAttributes="Bold"
+                             HeightRequest="45"
+                             Margin="0,10,0,0"/>
+
+                        <Button Text="Don't have an account? Sign up"
+                             Command="{Binding GoToRegisterCommand}"
+                             BackgroundColor="Transparent"
+                             TextColor="Gray"
+                             FontSize="14"/>
+
+                        <Label Text="{Binding Message}"
+                            TextColor="Red"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            FontSize="14" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <Grid BackgroundColor="White"
+              IsVisible="{Binding IsCheckingSession}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
+                <ActivityIndicator IsRunning="{Binding IsCheckingSession}" 
+                                Color="#4F39F5"
+                                HeightRequest="60" 
+                                WidthRequest="60"/>
+
+                <Label Text="Restoring session..." 
+                    TextColor="#4A5565" 
+                    FontSize="18"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</Views:BaseContentPage>

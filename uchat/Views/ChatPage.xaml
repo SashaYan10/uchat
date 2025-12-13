@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:uchat.ViewModels"
+             xmlns:Views="clr-namespace:uchat.Views.Base"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:uchat.Converters"
+             xmlns:models="clr-namespace:uchat.Models"
+             x:Class="uchat.ChatPage"
+             Shell.NavBarIsVisible="False"
+             x:DataType="ViewModels:ChatViewModel"
+             x:TypeArguments="ViewModels:ChatViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <toolkit:IsStringNotNullOrWhiteSpaceConverter x:Key="IsStringNotNullOrWhiteSpaceConverter"/>
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
+        <converters:MultiIsNotEqualConverter x:Key="MultiIsNotEqualConverter"/>
+        <converters:MultiIsEqualConverter x:Key="MultiIsEqualConverter"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid ColumnSpacing="16"
+              ColumnDefinitions="Auto,*"
+              BackgroundColor="#4F39F6"
+              Padding="16">
+            <ImageButton Source="ic_back.png" 
+                   WidthRequest="32"
+                   HeightRequest="32"
+                   Grid.Column="0"
+                   Command="{Binding GoBackCommand}"
+                   CornerRadius="26"/>
+
+            <Label Text="{Binding CurrentChat.Name}" 
+                   TextColor="White"
+                   Grid.Column="1"
+                   VerticalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding CurrentChat.IsGroup}"
+                                 Value="True">
+                        <Setter Property="Text"
+                                Value="{Binding CurrentChat.Name, StringFormat='#{0}'}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+
+        <ListView Grid.Row="1" 
+                  ItemsSource="{Binding Messages}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Message">
+                    <ViewCell>
+                        <Border Margin="16,8"
+                                BackgroundColor="Transparent"
+                                StrokeThickness="0">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border"
+                                             Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource MultiIsEqualConverter}">
+                                            <Binding Path="Id"/>
+                                            <Binding Path="MessageIdToEdit" Source="{RelativeSource AncestorType={x:Type ViewModels:ChatViewModel}}"/>
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="BackgroundColor"
+                                            Value="#334F39F6"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="Auto, *, Auto"
+                                  RowDefinitions="Auto,Auto"
+                                  Padding="16"
+                                  ColumnSpacing="8">
+                                <FlyoutBase.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Edit"
+                                                        CommandParameter="{Binding .}"
+                                                        Command="{Binding SelectMesageToEditCommand, Source={RelativeSource AncestorType={x:Type ViewModels:ChatViewModel}}}"
+                                                        IconImageSource="ic_edit.png"/>
+                                        <MenuFlyoutItem Text="Delete"
+                                                        CommandParameter="{Binding .}"
+                                                        Command="{Binding DeleteMessageCommand, Source={RelativeSource AncestorType={x:Type ViewModels:ChatViewModel}}}"
+                                                        IconImageSource="ic_delete.png"
+                                                        IsDestructive="True"/>
+                                    </MenuFlyout>
+                                </FlyoutBase.ContextFlyout>
+
+                                <Grid RowDefinitions="Auto, Auto">
+                                    <Grid.IsVisible>
+                                        <MultiBinding Converter="{StaticResource MultiIsNotEqualConverter}">
+                                            <Binding Path="SenderUsername"/>
+                                            <Binding Path="Nickname" Source="{RelativeSource AncestorType={x:Type ViewModels:ChatViewModel}}"/>
+                                        </MultiBinding>
+                                    </Grid.IsVisible>
+
+                                    <Label Text="{Binding SenderUsername}"
+                                           TextColor="#4A5565"/>
+                                    <Border BackgroundColor="#E5E7EB"
+                                            Grid.Row="1">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10" />
+                                        </Border.StrokeShape>
+
+                                        <Grid RowDefinitions="Auto,Auto"
+                                              RowSpacing="4"
+                                              Padding="16,8">
+                                            <Label Text="{Binding Text}"
+                                                   TextColor="Black"/>
+
+                                            <Label Text="{Binding Timestamp}"
+                                                   TextColor="#101828"
+                                                   Grid.Row="1"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+
+                                <Border BackgroundColor="#4F39F6"
+                                        Grid.Column="2">
+                                    <Border.IsVisible>
+                                        <MultiBinding Converter="{StaticResource MultiIsEqualConverter}">
+                                            <Binding Path="SenderUsername"/>
+                                            <Binding Path="Nickname" Source="{RelativeSource AncestorType={x:Type ViewModels:ChatViewModel}}"/>
+                                        </MultiBinding>
+                                    </Border.IsVisible>
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+
+                                    <Grid RowDefinitions="Auto,Auto"
+                                              RowSpacing="4"
+                                              Padding="16,8">
+                                        <Label Text="{Binding Text}"
+                                                   TextColor="White"/>
+
+                                        <Label Text="{Binding Timestamp}"
+                                               TextColor="White"
+                                               Grid.Row="1"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid ColumnSpacing="5"
+              Padding="17,8"
+              Grid.Row="2"
+              BackgroundColor="#F9FAFB"
+              ColumnDefinitions="*,Auto"
+              RowDefinitions="Auto, Auto">
+            <Label Text="Editing message..."
+                   IsVisible="{Binding MessageIdToEdit, Converter={StaticResource IsNotNullConverter}}"/>
+
+            <ImageButton Grid.Column="1"
+                         Grid.Row="0"
+                         Source="ic_close.png"
+                         Command="{Binding DeselectMesageToEditCommand}"
+                         IsVisible="{Binding MessageIdToEdit, Converter={StaticResource IsNotNullConverter}}"/>
+
+
+            <Border  Grid.Column="0"
+                     Grid.Row="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry BackgroundColor="Transparent"
+                       TextColor="Black"
+                       Placeholder="Write a message..."
+                       PlaceholderColor="#6A7282"
+                       Text="{Binding Text, Mode=TwoWay}"
+                       Completed="Entry_Completed"/>
+            </Border>
+
+            <Button Grid.Column="1"
+                    Grid.Row="1"
+                    BackgroundColor="#D1D5DC"
+                    TextColor="White"
+                    Text="Send"
+                    Padding="24,10"
+                    Command="{Binding SendMessageCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Text, Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}"
+                                 Value="True">
+                        <Setter Property="BackgroundColor"
+                                Value="#4F39F6"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
+</Views:BaseContentPage>
